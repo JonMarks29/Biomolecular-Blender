@@ -19,7 +19,7 @@ e.g. the following will select all the atoms loaded in the pdbfile object apart 
 ss = pdbfile.select('ss', ('notatom', ['C', 'CA', 'N', 'O']), texture='simple', rgba=(0.5,0.5,0.5,1))
 
 
-The selectionphrase is a tuple and typically takes the format: ('selection_method', selection_arguement/s), where selection_arguement is typically a list of atoms/beads/residues
+The selectionphrase is a tuple and typically takes the format: ('selection_method', selection_arguement/s), where selection_arguement is typically a list of atoms/beads/residues. A list of the selection_methods is found in the selection.py file
 
 Only a single texture and color can be assigned per selection
 
