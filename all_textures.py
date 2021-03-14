@@ -2,9 +2,8 @@
 import bpy
 
 
-
 # generates VERY simple material (non-node based), called name and with the rgb color
-def simple(name, rgba):
+def simple(selection_parent, name='default', rgba=(0.1,0.1,0.1,1)):
     if name in bpy.data.materials:
         bpy.data.materials[name].name = name+".001"
     bpy.data.materials.new(name=name)
@@ -15,8 +14,14 @@ def simple(name, rgba):
 
 # generates basic node based texture1
 # A single noise shader combined with a color ramp and particle location info
-def texture1(name='default', rgba=(0.1,0.1,0.1,1)):
+def texture1(selection_parent, name='default', rgba=(0.1,0.1,0.1,1)):
     r,g,b,a=rgba
+
+    # set object class specific parameters
+    if selection_parent.file_parent.filetype == 'PDB':
+        noise_scale = 11
+    else:
+        noise_scale = 4
 
     # create node-material and clear
     if name in bpy.data.materials:
@@ -54,7 +59,7 @@ def texture1(name='default', rgba=(0.1,0.1,0.1,1)):
     ramp1.color_ramp.elements[1].position = 0.7
     ramp1.color_ramp.elements[0].color = (r/4, g/4, b/4, 1)
     ramp1.color_ramp.elements[1].color = rgba
-    noise1.inputs[2].default_value = 4
+    noise1.inputs[2].default_value = noise_scale
     noise1.inputs[3].default_value = 0
     noise1.inputs[4].default_value = 0.4
     mix1.inputs[0].default_value = 0.65
