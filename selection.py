@@ -100,6 +100,41 @@ class Selection():
                 self.atoms.append(atom)
                 
 
+    # generates ribbon structure of the protein backbone
+    # ONLY IMPLEMENTED FOR CG GROFILES (ie 'BB' BEADS)
+    def ribbon(self):
+        self.atom_sele(['BB'])
+
+        # create curve datablock
+        curveData = bpy.data.curves.new('temp_curve', type='CURVE')
+        curveData.dimensions = '3D'
+        curveData.resolution_u = 1
+
+        # create polyline
+        polyline = curveData.splines.new('POLY')
+        polyline.points.add(len(self.atoms)-1)
+
+        for i in range(len(self.atoms)):
+            x,y,z = self.atoms[i].coors
+            polyline.points[i].co = (x, y, z, 0.5)
+
+        # create curve object and bevel
+        n = 'bb_'+str(i)
+        curve_ob = bpy.data.objects.new(n, curveData) 
+        curveData.bevel_depth = 0.06
+        curveData.bevel_resolution = 1
+        
+        # add to scene to visualise
+        bpy.context.scene.collection.objects.link(curve_ob)  
+
+        shaders = {'simple':all_textures.simple, 'texture1':all_textures.texture1}
+        shaders[self.texture](self, self.name, self.rgba)
+        
+        ob = bpy.data.objects[n]
+        ob.active_material = bpy.data.materials[self.name]     
+ 
+                
+
     def set_texture(self, texture, rgba=None):
         
         self.texture = texture
