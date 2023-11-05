@@ -1,4 +1,6 @@
 # Biomolecular Blender
+![alt text](https://github.com/JonMarks29/Biomolecular-Blender/blob/main/overveiw_graphic_spotlit_PP_short.png)
+
 Scripts to import, manipulate and visualise biomolecular-files in blender
 
 
